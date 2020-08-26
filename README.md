@@ -4,10 +4,6 @@
 
 ## Related Projects
 
-  - https://github.com/7LuckyAirbnboiiz/gallery
-  - https://github.com/7LuckyAirbnboiiz/reviews-section
-  - https://github.com/7LuckyAirbnboiiz/image_carousel
-
 ## Table of Contents
 
 1. [Usage](#Usage)
