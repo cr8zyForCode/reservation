@@ -12,7 +12,7 @@ const publicPath = path.join(__dirname, '/../public');
 
 // Middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/rooms/:room_id', expressStaticGzip(publicPath, {
   enableBrotli: true,
   orderPreference: ['br']
@@ -26,7 +26,7 @@ app.get('/rooms/:room_id/reservation', (req, res) => {
   // declare query params
   let queryParams = [req.params.room_id];
   // get all the informations and reservations of a specify room with the room_id from the endpoint
-  db.connection.query(queryString, queryParams, function(error, results, fields){
+  db.connection.query(queryString, queryParams, function (error, results, fields) {
     if (error) {
       console.log("Failed to get data from databases: ", error);
       res.status(404).send(error);
@@ -69,5 +69,5 @@ app.post('/rooms/:room_id/reservation', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`listening on port ${PORT}`);
+  console.log(`listening on http://localhost:${PORT}/rooms/3/`);
 });
