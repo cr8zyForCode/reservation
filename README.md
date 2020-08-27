@@ -1,34 +1,114 @@
-# Airbnb Calendar
+# Airbnb Reservation Component
 
-> A clone of Airbnb calendar component
+> A feature to add, update, or remove a reservation
 
-## Related Projects
+## Server API
 
-## Table of Contents
+### Retrieve all reservations for current property
+  * GET `/properties/:property_id/reservations`
 
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
+**Path Parameters:**
+ * `property_id` property id
 
-## Usage
+**Success Status Code:** `200`
 
-> Some usage instructions
+**Returns:** JSON
 
-## Requirements
+```json
+    {
+      "room_id": "Number",
+      "nightly_fee": "Number",
+      "rating": "Number",
+      "reviews": "Number",
+      "minimum_stay": "Number",
+      "maximum_guest": "Number",
+      "minimum_stay": "Number",
+      "reservations": [
+        {
+          "reservation_id": "String",
+          "booked_date": "Date",
+        }
+      ]
+    }
+```
+**Example request:** `/properties/1/reservations`
 
-An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
+### Add a reservation
+  * POST `/properties/:property_id/reservations`
 
-- Node 6.13.0
-- etc
+**Path Parameters:**
+ * `property_id` property id
 
-## Development
+**Success Status Code:** `201`
 
-### Installing Dependencies
+**Request Body**: Expects JSON with the following keys.
 
-From within the root directory:
-
-```sh
-npm install -g webpack
-npm install
+```json
+    {
+      "room_id": "Number",
+      "check_in": "Date",
+      "check_out": "Date",
+    }
+```
+**Example request:** `/properties/1/reservations`
+```json
+    {
+      "room_id": 1,
+      "check_in": "2020-11-14",
+      "check_out": "2020-11-24",
+    }
 ```
 
+### Update existing reservation
+  * PATCH `/properties/:property_id/reservations`
+
+**Path Parameters:**
+  * `property_id` property id
+
+**Success Status Code:** `204`
+
+**Request Body**: Expects JSON with any of the following keys (include only keys to be updated)
+
+```json
+    {
+      "reservation_id": {
+        "description": "room id + check in date + check out date with an x in between all three",
+        "type": "String"
+      },
+      "new_check_in": "Date",
+      "new_check_out": "Date"
+    }
+```
+**Example request:** `/properties/1/reservations`
+```json
+    {
+      "reservation_id": "2x2020-11-14x2020-11-24",
+      "new_check_in": "Date",
+      "new_check_out": "Date"
+    }
+```
+
+### Remove reservation
+  * DELETE `/properties/:property_id/reservations`
+
+**Path Parameters:**
+  * `property_id` property id
+
+**Success Status Code:** `204`
+
+**Request Body**: Expects JSON with the following keys.
+
+```json
+    {
+      "reservation_id": {
+        "description": "room id + check in date + check out date with an x in between all three",
+        "type": "String"
+      },
+    }
+```
+**Example request:** `/properties/1/reservations`
+```json
+     {
+      "reservation_id": "2x2020-11-14x2020-11-24",
+    }
+```
