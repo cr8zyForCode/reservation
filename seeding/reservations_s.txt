@@ -1,0 +1,11 @@
+#!/bin/bash
+
+psql postgres -U root -d sampledb -c "COPY reservations(property_id, reservation_id, booked_date)
+FROM '$(pwd)/reservations.csv'
+DELIMITER ','
+CSV HEADER"
+
+"COPY houses(houseId, houseName)
+FROM 'INSERT PATH HERE'
+DELIMITER ','
+CSV HEADER"
