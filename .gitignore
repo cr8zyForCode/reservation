@@ -12,3 +12,12 @@ config.js
 
 # test coverage folder
 coverage/
+
+# playground
+practice
+practice.js
+
+#seed files
+/seeding/properties.csv
+/seeding/reservations.csv
+/seeding/reservationInfo.csv

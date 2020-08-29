@@ -16,6 +16,7 @@ CREATE TABLE rooms (
 
 CREATE TABLE reservations (
   id INT NOT NULL AUTO_INCREMENT,
+  res_id  VARCHAR(250) NOT NULL,
   room_id INT NOT NULL,
   booked_date DATE NOT NULL,
   PRIMARY KEY (id),
