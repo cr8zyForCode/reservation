@@ -1,6 +1,0 @@
-#!/bin/bash
-
-psql postgres -U root -d sampledb -c "COPY properties(nightly_fee, rating, reviews, min_stay, max_guests)
-FROM '$(pwd)/properties.csv'
-DELIMITER ','
-CSV HEADER"

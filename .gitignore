@@ -17,7 +17,10 @@ coverage/
 practice
 practice.js
 
-#seed files
-/seeding/properties.csv
-/seeding/reservations.csv
-/seeding/reservationInfo.csv
+#seed/schema related files
+/seeding
+/schemas
+
+#newrelic
+newrelic.js
+newrelic_agent.log
