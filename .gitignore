@@ -1,26 +1,10 @@
-## MAC files ##
-.DS_Store
-
-## NPM ##
-node_modules/
-
-# Compiled Dirs (http://nodejs.org/api/addons.html)
-public/bundle.js
-
-# mysql config
-config.js
-
-# test coverage folder
-coverage/
-
-# playground
-practice
-practice.js
-
-#seed/schema related files
-/seeding
-/schemas
-
-#newrelic
-newrelic.js
+#node modules
+node_modules
+package-lock.json
 newrelic_agent.log
+notes.txt
+seeding
+schemas
+practice
+newrelic.js
+.DS_Store

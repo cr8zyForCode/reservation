@@ -1,0 +1,78 @@
+#!/bin/bash
+
+KEYPSPACENAME=helloworld
+CLASS=SimpleStrategy
+REPLICATIONSTRAT=2
+
+TABLE1=properties
+PROPERTYFILES=10
+PROPERTYPADDING=7
+
+TABLE2=reservationinfo
+INFOFILES=10
+INFOPADDING=7
+
+TABLE3=reservations
+RESERVATIONSFILES=10
+RESERVATIONPADDING=7
+
+echo "Begin to generate ${PROPERTYFILES} ${TABLE1} files"
+for ((i = 0 ; i < ${PROPERTYFILES} ; i++)); do
+  echo "PROPERTY FILE: $i"
+  node properties.js $i ${i} $(($i+1)) $PROPERTYPADDING $PROPERTYPADDING
+done
+
+echo "Begin to generate ${INFOFILES} ${TABLE2} files"
+for ((i = 0 ; i < ${INFOFILES} ; i++)); do
+  echo "INFO FILE: $i"
+  node info-reservation.js $i ${i} $(($i+1)) $INFOPADDING $INFOPADDING
+done
+
+echo "Begin to generate ${RESERVATIONSFILES} ${TABLE3} files"
+for ((i = 0 ; i < ${RESERVATIONSFILES} ; i++)); do
+  echo "GENERATING RESERVATIONS FILE: $i"
+  node reservations.js $i ${i} $(($i+1)) $RESERVATIONPADDING $RESERVATIONPADDING
+done
+
+echo "creating keyspace ${KEYPSPACENAME}"
+cqlsh -e "create keyspace ${KEYPSPACENAME} with replication = {'class': '${CLASS}', 'replication_factor': ${REPLICATIONSTRAT}}"
+echo "created keyspace ${KEYPSPACENAME}"
+
+echo "CREATING ALL TABLES in ${KEYPSPACENAME}"
+
+echo "creating table ${TABLE1}"
+cqlsh -e "create table ${KEYPSPACENAME}.${TABLE1} (id int,nightly_fee int,rating int,reviews int,min_stay int,max_guests int, PRIMARY KEY (id))"
+echo "created table ${TABLE1}"
+
+echo "creating table ${TABLE2}"
+cqlsh -e "create table ${KEYPSPACENAME}.${TABLE2} (reservation_id text,property_id int, total_guests int,total_price int, PRIMARY KEY (reservation_id))"
+echo "created table ${TABLE2}"
+
+echo "creating table ${TABLE3}"
+cqlsh -e "create table ${KEYPSPACENAME}.${TABLE3} (property_id int, booked_date date, PRIMARY KEY(property_id, booked_date))"
+echo "created table ${TABLE3}"
+
+echo "IMPORTING ALL FILES INTO keyspace ${KEYPSPACENAME}"
+
+echo "importing to table $(TABLE1)"
+for ((i = 0 ; i < ${PROPERTYFILES} ; i++)); do
+  echo "COPYING PROPERTY FILE: $i"
+  cqlsh -k ${KEYPSPACENAME} -e "COPY ${TABLE1} FROM '$(pwd)/properties${i}.csv' WITH DELIMITER=',' AND HEADER=TRUE"
+done
+echo "imported to table ${TABLE1}"
+
+echo "importing to table ${TABLE2}"
+for ((i = 0 ; i < ${INFOFILES} ; i++)); do
+  echo "COPYING RESERVATION INFO FILE: $i"
+  cqlsh -k ${KEYPSPACENAME} -e "COPY ${TABLE2} FROM '$(pwd)/info-reservation${i}.csv' WITH DELIMITER=',' AND HEADER=TRUE"
+done
+echo "imported to table ${TABLE2}"
+
+echo "importing to table ${TABLE3}"
+for ((i = 0 ; i < ${RESERVATIONSFILES} ; i++)); do
+  echo "COPYING RESERVATIONS FILE: $i"
+  cqlsh -k ${KEYPSPACENAME} -e "COPY ${TABLE3} FROM '$(pwd)/reservations${i}.csv' WITH DELIMITER=',' AND HEADER=TRUE"
+done
+echo "imported to table ${TABLE3}"
+
+echo "GENERATED $(($PROPERTYFILES + $INFOFILES + $RESERVATIONSFILES)) FILES AND IMPORTED THEM ALL TO KEYSPACE ${KEYPSPACENAME}"
