@@ -2,9 +2,11 @@
 node_modules
 package-lock.json
 newrelic_agent.log
-notes.txt
+cass_notes.txt
 seeding
 schemas
 practice
 newrelic.js
 .DS_Store
+postgres_notes.txt
+/postgres
