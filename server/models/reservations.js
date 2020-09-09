@@ -30,24 +30,23 @@ const getReservations = (property, cb) => {
 //ADD TO BOTH RESERVATION_INFO AND RESERVATIONS
 const createReservations = ({ reservation_id, property_id, total_price, total_guests, dates }, cb) => {
   //add to reservations_info
-  let query = `INSERT INTO calendar.reservation_info (reservation_id,property_id, total_guests, total_price) VALUES ('${reservation_id}',${property_id},${total_guests},${total_price});`
+  let query = `INSERT INTO calendar.reservationinfo (reservation_id,property_id, total_guests, total_price) VALUES ('${reservation_id}',${property_id},${total_guests},${total_price});`
 
   client.execute(query, (err, result) => {
     if (err) {
-      console.log('could not add reservation');
+      console.log('could not add to reservations info');
       // cb(err)
     } else {
       console.log('inserted into reservation_info');
-      console.log('start to insert into reservation_info');
       // cb(null, result)
       reservation_id = Number(reservation_id);
 
       for (let i = 0; i < dates.length; i++) {
-        let query = `INSERT INTO calendar.reservations (property_id,booked_date, reservation_id) VALUES (${property_id},'${dates[i]}',${reservation_id})`
+        let query = `INSERT INTO calendar.reservations (property_id,booked_date) VALUES (${property_id},'${dates[i]}')`
 
         client.execute(query, (err, result) => {
           if (err) {
-            console.log('could not add reservation');
+            console.log('could not add to reservations table');
             cb(err)
           } else {
             console.log('inserted into reservations');

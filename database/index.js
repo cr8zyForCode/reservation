@@ -9,7 +9,7 @@ const cassandra = require('cassandra-driver');
 var authProvider = new cassandra.auth.PlainTextAuthProvider('root', 'root');
 
 const client = new cassandra.Client({
-  contactPoints: ['54.151.34.180'],
+  contactPoints: ['54.215.59.108'],
   keyspace: 'calendar',
   authProvider: authProvider,
   localDataCenter: 'datacenter1'
