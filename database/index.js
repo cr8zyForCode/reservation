@@ -8,14 +8,19 @@ const cassandra = require('cassandra-driver');
 
 var authProvider = new cassandra.auth.PlainTextAuthProvider('root', 'root');
 
-console.log('hello')
-
 const client = new cassandra.Client({
   contactPoints: ['54.151.34.180'],
   keyspace: 'calendar',
   authProvider: authProvider,
   localDataCenter: 'datacenter1'
 });
+
+// const client = new cassandra.Client({
+//   contactPoints: ['127.0.0.1'],
+//   keyspace: 'calendar',
+//   authProvider: authProvider,
+//   localDataCenter: 'datacenter1'
+// });
 
 client.connect((err) => {
   if (err) {
@@ -24,8 +29,6 @@ client.connect((err) => {
     console.log('connected to cassandra');
   }
 });
-
-
 
 // client.execute(query, (err, result) => {
 //   if (err) {
