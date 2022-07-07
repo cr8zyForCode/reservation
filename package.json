@@ -27,7 +27,7 @@
     "express-static-gzip": "^2.0.7",
     "fs": "0.0.1-security",
     "jquery": "^3.5.1",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "mysql": "^2.18.1",
     "newrelic": "^6.13.0",
     "nodemon": "^2.0.4",
